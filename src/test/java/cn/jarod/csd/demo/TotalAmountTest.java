@@ -1,8 +1,10 @@
 package cn.jarod.csd.demo;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +57,29 @@ public class TotalAmountTest {
         double amount = totalAmount.query("20170615","20170625");
         assertEquals(110,amount,0.001);
     }
+
+
+    @Test
+    public void two_month_getMonthBetweenTest() throws ParseException {
+        LocalDate localDate1 = LocalDate.of(2017,6,14);
+        LocalDate localDate2 = LocalDate.of(2017,7,16);
+        List<String> listMonth = TotalAmount.getMonthBetween(localDate1,localDate2);
+        List<String> targetMonthList = new ArrayList<String>();
+        targetMonthList.add("201706");
+        targetMonthList.add("201707");
+        Assert.assertEquals(targetMonthList,listMonth);
+    }
+
+    @Test
+    public void one_month_getMonthBetweenTest() throws ParseException {
+        LocalDate localDate1 = LocalDate.of(2017,6,14);
+        LocalDate localDate2 = LocalDate.of(2017,6,16);
+        List<String> listMonth = TotalAmount.getMonthBetween(localDate1,localDate2);
+        List<String> targetMonthList = new ArrayList<String>();
+        targetMonthList.add("201706");
+        Assert.assertEquals(targetMonthList,listMonth);
+    }
+
 
 
 

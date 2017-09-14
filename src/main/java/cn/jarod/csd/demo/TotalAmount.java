@@ -3,8 +3,11 @@ package cn.jarod.csd.demo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static javax.xml.bind.DatatypeConverter.parseDate;
@@ -108,7 +111,10 @@ public class TotalAmount {
         LocalDate startDate = minDate;
         for (int i =0; i<monthnum; i++ ) {
             startDate.plusMonths(i);
-            result.add(sdf.format(startDate));
+            ZoneId zoneId = ZoneId.systemDefault();
+            ZonedDateTime zdt = startDate.atStartOfDay(zoneId);
+            Date date = Date.from(zdt.toInstant());
+            result.add(sdf.format(date));
         }
         return result;
     }

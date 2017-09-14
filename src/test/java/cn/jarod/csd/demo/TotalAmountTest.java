@@ -45,6 +45,18 @@ public class TotalAmountTest {
         assertEquals(310,amount,0.001);
     }
 
+    @Test
+    public  void in_one_month_planned_budget() throws ParseException {
+        BudgetRepo stubBudgetRepo = mock (BudgetRepo.class);
+        List<Budget> budgetList = new ArrayList<Budget>();
+        budgetList.add(new Budget("201706",300));
+        when(stubBudgetRepo.findAll()).thenReturn(budgetList);
+        TotalAmount totalAmount = new TotalAmount(stubBudgetRepo);
+        double amount = totalAmount.query("20170615","20170625");
+        assertEquals(110,amount,0.001);
+    }
+
+
 
 
 }

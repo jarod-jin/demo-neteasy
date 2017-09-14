@@ -26,7 +26,7 @@ public class TotalAmount {
         LocalDate startDate = createLocalDate(s);
         LocalDate endDate = createLocalDate(s1);
         int monthNum = getMonthSpace(s,s1);
-        if (monthNum>0){
+        if (monthNum>1){
             double amount = 0;
             int sdays = startDate.lengthOfMonth()-startDate.getDayOfMonth() + 1;
             List<Budget> budgetList =  stubBudgetRepo.findAll();
@@ -50,9 +50,9 @@ public class TotalAmount {
                 }
             }
             return amount;
-        }else if(monthNum == 0 )
+        }else if(monthNum == 1 )
         {
-            int d_day = Integer.parseInt(s1.substring(5,6))-Integer.parseInt(s1.substring(5,6));
+            int d_day = endDate.getDayOfMonth()-startDate.getDayOfMonth();
             if (d_day>=0){
                 List<Budget> budgetList = stubBudgetRepo.findAll();
                 for (Budget b : budgetList){
@@ -74,8 +74,8 @@ public class TotalAmount {
 
     private LocalDate createLocalDate(String str){
         int year = Integer.parseInt(str.substring(0,4));
-        int month = Integer.parseInt(str.substring(5,6));
-        int day = Integer.parseInt(str.substring(7,8));
+        int month = Integer.parseInt(str.substring(4,6));
+        int day = Integer.parseInt(str.substring(6,8));
         return LocalDate.of(year,month,day);
     }
 

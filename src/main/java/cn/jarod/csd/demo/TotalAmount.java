@@ -12,8 +12,10 @@ import static javax.xml.bind.DatatypeConverter.parseDate;
 public class TotalAmount {
 
 
+    private BudgetRepo stubBudgetRepo;
 
     public TotalAmount(BudgetRepo stubBudgetRepo) {
+        this.stubBudgetRepo = stubBudgetRepo;
     }
 
     public double query(String s, String s1) throws ParseException {
@@ -24,19 +26,19 @@ public class TotalAmount {
         if (monthNum>0){
             double amount = 0;
             int sdays = startDate.lengthOfMonth()-startDate.getDayOfMonth() + 1;
-            List<Budget> budgetList =  new BudgetRepo().findAll();
+            List<Budget> budgetList =  stubBudgetRepo.findAll();
             for (Budget b : budgetList){
                 double avgamount = b.getAmount()/startDate.lengthOfMonth();
                 amount = sdays*avgamount;
             }
 
-            int edays = endDate.getDayOfMonth()-endDate.lengthOfMonth() + 1;
+            int edays = endDate.lengthOfMonth() - endDate.getDayOfMonth() + 1;
             for (Budget b : budgetList){
                 double avgamount = b.getAmount()/endDate.lengthOfMonth();
                 amount += edays*avgamount;
             }
 
-            List<String> monthList = getMonthBetween(s,s1);
+            List<String> monthList = getMonthBetween(startDate,monthNum);
             for (int m =1 ; m<(monthList.size()-1); m++){
                 for (Budget b : budgetList){
                     if (b.getMonth().equals(monthList.get(m))){
@@ -49,7 +51,7 @@ public class TotalAmount {
         {
             int d_day = Integer.parseInt(s1.substring(5,6))-Integer.parseInt(s1.substring(5,6));
             if (d_day>=0){
-                List<Budget> budgetList =  new BudgetRepo().findAll();
+                List<Budget> budgetList = stubBudgetRepo.findAll();
                 for (Budget b : budgetList){
                     if (b.getMonth().equals(s.substring(0,6))){
                         int day = getDays(s);
@@ -100,25 +102,14 @@ public class TotalAmount {
 
     }
 
-    private static List<String> getMonthBetween(String minDate, String maxDate) throws ParseException {
+    private static List<String> getMonthBetween(LocalDate minDate, int monthnum) throws ParseException {
         ArrayList<String> result = new ArrayList<String>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");//格式化为年月
-
-        Calendar min = Calendar.getInstance();
-        Calendar max = Calendar.getInstance();
-
-        min.setTime(sdf.parse(minDate));
-        min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
-
-        max.setTime(sdf.parse(maxDate));
-        max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
-
-        Calendar curr = min;
-        while (curr.before(max)) {
-            result.add(sdf.format(curr.getTime()));
-            curr.add(Calendar.MONTH, 1);
+        LocalDate startDate = minDate;
+        for (int i =0; i<monthnum; i++ ) {
+            startDate.plusMonths(i);
+            result.add(sdf.format(startDate));
         }
-
         return result;
     }
 

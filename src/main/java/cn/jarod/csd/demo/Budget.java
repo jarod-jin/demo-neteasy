@@ -6,6 +6,11 @@ public class Budget {
 
     private double amount;
 
+    public Budget() {
+    }
+    public Budget(String s, int i) {
+    }
+
     public String getMonth() {
         return month;
     }

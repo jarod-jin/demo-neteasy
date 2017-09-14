@@ -47,6 +47,34 @@ public class TotalAmountTest {
         assertEquals(310,amount,0.001);
     }
 
+
+    @Test
+    public  void three_month_planned_budget() throws ParseException {
+        BudgetRepo stubBudgetRepo = mock (BudgetRepo.class);
+        List<Budget> budgetList = new ArrayList<Budget>();
+        budgetList.add(new Budget("201707",310));
+        budgetList.add(new Budget("201706",300));
+        budgetList.add(new Budget("201708",310));
+        when(stubBudgetRepo.findAll()).thenReturn(budgetList);
+        TotalAmount totalAmount = new TotalAmount(stubBudgetRepo);
+        double amount = totalAmount.query("20170615","20170815");
+        assertEquals(620,amount,0.001);
+    }
+
+    @Test
+    public  void three_month_pass_year_planned_budget() throws ParseException {
+        BudgetRepo stubBudgetRepo = mock (BudgetRepo.class);
+        List<Budget> budgetList = new ArrayList<Budget>();
+        budgetList.add(new Budget("201612",310));
+        budgetList.add(new Budget("201701",310));
+        budgetList.add(new Budget("201702",280));
+        when(stubBudgetRepo.findAll()).thenReturn(budgetList);
+        TotalAmount totalAmount = new TotalAmount(stubBudgetRepo);
+        double amount = totalAmount.query("20161215","20170204");
+        assertEquals(520,amount,0.001);
+    }
+
+
     @Test
     public  void in_one_month_planned_budget() throws ParseException {
         BudgetRepo stubBudgetRepo = mock (BudgetRepo.class);

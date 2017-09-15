@@ -20,18 +20,23 @@ public class TotalAmount {
         this.stubBudgetRepo = stubBudgetRepo;
     }
 
-    public double query(String s, String s1) throws ParseException {
+    public double query(String startDateStr, String endDateStr) throws ParseException {
         double total = 0;
-        LocalDate startDate = createLocalDate(s);
-        LocalDate endDate = createLocalDate(s1);
+        LocalDate startDate = createLocalDate(startDateStr);
+        LocalDate endDate = createLocalDate(endDateStr);
         if (startDate.minusDays(1).isBefore(endDate)){
             List<String> monthList = getMonthBetween(startDate,endDate);
-            if (monthList.size()>1){
-                for (int m =0 ; m<monthList.size(); m++){
-                    if (m==0) {
+            if (isInOneMonth(monthList.size())){
+                int d_day = endDate.getDayOfMonth()-startDate.getDayOfMonth() + 1;
+                total +=  getAmountByMonth(startDateStr.substring(0,6),d_day);
+            }
+            else
+            {
+                for (int m = 0 ; m<monthList.size(); m++){
+                    if (monthList.get(m).equals(startDateStr.substring(0,6))) {
                         int firstMonthDays = startDate.lengthOfMonth() - startDate.getDayOfMonth() + 1;
                         total += getAmountByMonth(monthList.get(m), firstMonthDays);
-                    }else if (m==monthList.size()-1){
+                    }else if (monthList.get(m).equals(endDateStr.substring(0,6))){
                         int lastMonthDays = endDate.getDayOfMonth();
                         total += getAmountByMonth(monthList.get(m), lastMonthDays);
                     }else{
@@ -43,19 +48,22 @@ public class TotalAmount {
                     }
                 }
             }
-            else
-            {
-                int d_day = endDate.getDayOfMonth()-startDate.getDayOfMonth() + 1;
-                total +=  getAmountByMonth(s.substring(0,6),d_day);
-            }
 
         }
         return total;
-
     }
 
     /**
-     * 计算天数的
+     * 判断同一个月
+     * @param size
+     * @return
+     */
+    private boolean isInOneMonth(int size){
+        return size==1?true:false;
+    }
+
+    /**
+     * 计算当月天数的amount
      * @param month
      * @param days
      * @return

@@ -24,7 +24,7 @@ public class TotalAmount {
         double total = 0;
         LocalDate startDate = createLocalDate(s);
         LocalDate endDate = createLocalDate(s1);
-        if (startDate.isBefore(endDate)){
+        if (startDate.minusDays(1).isBefore(endDate)){
             List<String> monthList = getMonthBetween(startDate,endDate);
             if (monthList.size()>1){
                 for (int m =0 ; m<monthList.size(); m++){
@@ -54,7 +54,12 @@ public class TotalAmount {
 
     }
 
-
+    /**
+     * 计算天数的
+     * @param month
+     * @param days
+     * @return
+     */
     private double getAmountByMonth(String month, int days){
         double total = 0;
         for (Budget b : stubBudgetRepo.findAll()) {
@@ -65,6 +70,13 @@ public class TotalAmount {
         return total;
     }
 
+    /**
+     * 获得2个LocalDate中间所有的月份
+     * @param startDate
+     * @param endDate
+     * @return
+     * @throws ParseException
+     */
     public static List<String> getMonthBetween(LocalDate startDate, LocalDate endDate) throws ParseException {
         ArrayList<String> result = new ArrayList<String>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");//格式化为年月

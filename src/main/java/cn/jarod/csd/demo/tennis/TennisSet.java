@@ -37,7 +37,7 @@ public class TennisSet {
     }
 
     public String printScore() {
-        if (serverScore >= DEUCE_SCORE || receiverScore >= 3){
+        if (serverScore >= DEUCE_SCORE || receiverScore >= DEUCE_SCORE){
             if (serverScore==receiverScore)
                 return "Deuce";
             if (serverScore>receiverScore && serverScore>DEUCE_SCORE){

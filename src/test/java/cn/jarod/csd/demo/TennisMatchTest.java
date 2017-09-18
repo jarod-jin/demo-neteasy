@@ -15,7 +15,9 @@ public class TennisMatchTest {
 
     @Test
     public void match_1_0(){
-
+        tennisMatch.addOneSet("Joseph");
         Assert.assertEquals("Joseph (1:0) 91",tennisMatch.printMatch());
     }
+
+
 }

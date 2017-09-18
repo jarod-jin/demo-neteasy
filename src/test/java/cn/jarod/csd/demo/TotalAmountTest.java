@@ -1,5 +1,8 @@
 package cn.jarod.csd.demo;
 
+import cn.jarod.csd.demo.amount.Budget;
+import cn.jarod.csd.demo.amount.BudgetRepo;
+import cn.jarod.csd.demo.amount.TotalAmount;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,6 +54,15 @@ public class TotalAmountTest {
         assertEquals(310,amount,0.001);
     }
 
+    @Test
+    public  void no_day_in_planned_budget() throws ParseException {
+        List<Budget> budgetList = new ArrayList<Budget>();
+        budgetList.add(new Budget("201705",310));
+        getTotalAmount(budgetList);
+        double amount = totalAmount.query("20170615","20170815");
+        assertEquals(0,amount,0.001);
+    }
+
 
     @Test
     public  void three_month_planned_budget() throws ParseException {
@@ -99,11 +111,10 @@ public class TotalAmountTest {
     public void two_month_getMonthBetweenTest() throws ParseException {
         LocalDate localDate1 = LocalDate.of(2017,6,14);
         LocalDate localDate2 = LocalDate.of(2017,7,16);
-        List<String> listMonth = TotalAmount.getMonthBetween(localDate1,localDate2);
         List<String> targetMonthList = new ArrayList<String>();
         targetMonthList.add("201706");
         targetMonthList.add("201707");
-        Assert.assertEquals(targetMonthList,listMonth);
+        Assert.assertEquals(targetMonthList, TotalAmount.getMonthBetween(localDate1,localDate2));
     }
 
     @Test

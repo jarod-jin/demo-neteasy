@@ -1,4 +1,4 @@
-package cn.jarod.csd.demo;
+package cn.jarod.csd.demo.amount;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static cn.jarod.csd.demo.DateString.createLocalDate;
 import static java.time.format.DateTimeFormatter.ofPattern;
 
 public class TotalAmount {
@@ -30,7 +29,7 @@ public class TotalAmount {
         }
         List<String> monthList = getMonthBetween(startDate,endDate);
         if (isInOneMonth(monthList.size())){
-            total =  getAmountByMonth(startDateStr.substring(0,6),(endDate.getDayOfMonth()-startDate.getDayOfMonth() + 1));
+            total =  getAmountByMonth(startDateStr.substring(0,6),(endDate.getDayOfMonth()- startDate.getDayOfMonth() + 1));
             return total;
         }
         for (String monthStr : monthList){
@@ -55,7 +54,7 @@ public class TotalAmount {
      * @return
      */
     private boolean isInOneMonth(int size){
-        return size==1?true:false;
+        return size==1 ? true:false;
     }
 
     /**

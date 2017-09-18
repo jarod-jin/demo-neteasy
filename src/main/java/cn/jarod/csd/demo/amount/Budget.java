@@ -1,5 +1,7 @@
-package cn.jarod.csd.demo;
+package cn.jarod.csd.demo.amount;
 
+
+import cn.jarod.csd.demo.DateString;
 
 public class Budget {
 
@@ -14,7 +16,7 @@ public class Budget {
     public Budget(String s, double i) {
         this.month = s;
         this.amount = i;
-        this.avgAmount = amount/DateString.createLocalDate(month+"01").lengthOfMonth();
+        this.avgAmount = amount/ DateString.createLocalDate(month+"01").lengthOfMonth();
     }
 
     public String getMonth() {

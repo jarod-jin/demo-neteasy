@@ -2,8 +2,6 @@ package cn.jarod.csd.demo.tennis;
 
 public class TennisSet {
 
-    private static final int LOVE = 0;
-
     public static final int WIN_SCORE = 2;
 
     public static final int DEUCE_SCORE = 3;
@@ -38,31 +36,27 @@ public class TennisSet {
 
 
     public String printScore() {
-        if (server.getScore() == receiver.getScore()){
-            if (server.getScore() < DEUCE_SCORE)
-                return scoreArr[server.getScore()]+" All";
-            else
-                return "Deuce";
+        if (server.getScore() == receiver.getScore() ) {
+            return (server.getScore() < DEUCE_SCORE) ? scoreArr[server.getScore()] + " All":"Deuce";
         }
-        getPlayerAdvOrNot(server, receiver);
-        if ( advPlayer.getScore() > DEUCE_SCORE ){
-            if ((advPlayer.getScore() - unAdvPlayer.getScore()) <  WIN_SCORE )
-                return advPlayer.getName() + ADV;
-            else
-                return advPlayer.getName() + WIN;
+        if ( overDeuceScoreOrNot(server, receiver)  ){
+            return advPlayer.getName() + ((advPlayer.getScore() - unAdvPlayer.getScore()) <  WIN_SCORE ? ADV: WIN) ;
         }
         return scoreArr[server.getScore()]+" "+scoreArr[receiver.getScore()];
-
     }
 
-    private void getPlayerAdvOrNot(TennisPlayer player1, TennisPlayer player2) {
-        if (player1.getScore() > player2.getScore()){
-            advPlayer = player1;
-            unAdvPlayer = player2;
+    private boolean overDeuceScoreOrNot(TennisPlayer server, TennisPlayer receiver) {
+        if (server.getScore() > receiver.getScore()){
+            advPlayer = server;
+            unAdvPlayer = receiver;
         }else{
-            advPlayer = player2;
-            unAdvPlayer = player1;
+            advPlayer = receiver;
+            unAdvPlayer = server;
         }
+        if (advPlayer.getScore() >  DEUCE_SCORE ){
+            return true;
+        }
+        return false;
     }
 
 

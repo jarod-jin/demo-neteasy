@@ -27,7 +27,7 @@ public class TennisSet {
     }
 
 
-    private String[] scoreArr = {"Love","Fifteen","Thirty","Forty"};
+    private String[] scoreArr = {"Love","Fifteen","Thirty","Forty","Win"};
 
     private TennisSet(String serverName, String receiverName){
         server = new TennisPlayer(serverName);

@@ -9,57 +9,62 @@ public class TennisSet {
     public static final int DEUCE_SCORE = 3;
 
     public static final String WIN = " Win";
+
     public static final String ADV = " Adv";
 
+    private TennisPlayer receiver;
 
-    private int serverScore;
+    private TennisPlayer server;
 
-    private int receiverScore;
+    private TennisPlayer advPlayer;
 
-    private String serverName;
+    private TennisPlayer unAdvPlayer;
 
-    private String receiverName;
+    public TennisPlayer getReceiver() {
+        return receiver;
+    }
+
+    public TennisPlayer getServer() {
+        return server;
+    }
+
 
     private String[] scoreArr = {"Love","Fifteen","Thirty","Forty"};
 
     private TennisSet(String serverName, String receiverName){
-        this.serverName = serverName;
-        this.receiverName = receiverName;
+        server = new TennisPlayer(serverName);
+        receiver = new TennisPlayer(receiverName);
     }
 
-
-    public void serverGetPoint() {
-        serverScore ++;
-    }
-
-    public void recieverGetPoint() {
-        receiverScore++;
-    }
 
     public String printScore() {
-        if (serverScore >= DEUCE_SCORE || receiverScore >= DEUCE_SCORE){
-            if (serverScore==receiverScore)
+        if (server.getScore() == receiver.getScore()){
+            if (server.getScore() < DEUCE_SCORE)
+                return scoreArr[server.getScore()]+" All";
+            else
                 return "Deuce";
-            if (serverScore>receiverScore && serverScore>DEUCE_SCORE){
-                if ((serverScore-receiverScore) <  WIN_SCORE )
-                    return serverName + ADV;
-                else
-                    return serverName + WIN;
-            }
-
-            if (receiverScore>serverScore && receiverScore>DEUCE_SCORE)
-                if ((receiverScore-serverScore) < WIN_SCORE)
-                    return receiverName + ADV;
-                else
-                    return receiverName + WIN;
-
         }
-        if (serverScore== receiverScore && serverScore==LOVE){
-            return scoreArr[serverScore]+" All";
+        getPlayerAdvOrNot(server, receiver);
+        if ( advPlayer.getScore() > DEUCE_SCORE ){
+            if ((advPlayer.getScore() - unAdvPlayer.getScore()) <  WIN_SCORE )
+                return advPlayer.getName() + ADV;
+            else
+                return advPlayer.getName() + WIN;
         }
-        return scoreArr[serverScore]+" "+scoreArr[receiverScore];
+        return scoreArr[server.getScore()]+" "+scoreArr[receiver.getScore()];
 
     }
+
+    private void getPlayerAdvOrNot(TennisPlayer player1, TennisPlayer player2) {
+        if (player1.getScore() > player2.getScore()){
+            advPlayer = player1;
+            unAdvPlayer = player2;
+        }else{
+            advPlayer = player2;
+            unAdvPlayer = player1;
+        }
+    }
+
 
     public static TennisSet createSet(String serverName, String receiverName) {
         return new TennisSet( serverName, receiverName);

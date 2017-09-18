@@ -13,10 +13,10 @@ public class TennisSetTest {
 
     private void getPlayerPoint(int serverPoint, int receiverPoint) {
         IntStream.range(0,serverPoint).forEach( score -> {
-            tennisSet.serverGetPoint();
+            tennisSet.getServer().playerGetPoint();
         });
         IntStream.range(0,receiverPoint).forEach( score -> {
-            tennisSet.recieverGetPoint();
+            tennisSet.getReceiver().playerGetPoint();
         });
     }
 
@@ -33,6 +33,12 @@ public class TennisSetTest {
     }
 
     @Test
+    public void Fifteen_All(){
+        getPlayerPoint(1,1);
+        Assert.assertEquals("Fifteen All",tennisSet.printScore());
+    }
+
+    @Test
     public void Thirty_Love(){
         getPlayerPoint(2,0);
         Assert.assertEquals("Thirty Love",tennisSet.printScore());
@@ -40,8 +46,8 @@ public class TennisSetTest {
 
     @Test
     public void Love_Forty(){
-        getPlayerPoint(0,3);
-        Assert.assertEquals("Love Forty",tennisSet.printScore());
+        getPlayerPoint(2,3);
+        Assert.assertEquals("Thirty Forty",tennisSet.printScore());
     }
 
     @Test

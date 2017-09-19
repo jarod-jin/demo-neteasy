@@ -22,13 +22,9 @@ public class TennisMatch {
 
 
     public TennisMatch(String serverName, String receiverName){
-        if (server==null)
-           server =  new TennisPlayer(serverName);
-        if (receiver==null)
-            receiver =  new TennisPlayer(receiverName);
-        if (winPlayer==null){
-            setWinPlayer(new ArrayList<String>());
-        }
+        if (server==null) server =  new TennisPlayer(serverName);
+        if (receiver==null) receiver =  new TennisPlayer(receiverName);
+        if (winPlayer==null) setWinPlayer(new ArrayList<String>());
     }
 
     public String printMatch() {
@@ -38,10 +34,8 @@ public class TennisMatch {
 
 
     private void takeSetResult(String name) {
-        if (server.isThisPlayer(name))
-            server.playerGetPoint();
-        if (receiver.isThisPlayer(name))
-            receiver.playerGetPoint();
+        if (server.isThisPlayer(name)) server.playerGetPoint();
+        if (receiver.isThisPlayer(name)) receiver.playerGetPoint();
     }
 
     public void addOneSet(String player){

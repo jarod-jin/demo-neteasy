@@ -31,10 +31,7 @@ public class TennisSet {
         if (server.getScore() == receiver.getScore() ) {
             return (server.getScore() < Contants.DEUCE_SCORE) ? scoreArr[server.getScore()] + Contants.ALL : Contants.DEUCE;
         }
-        if (overDeuceScoreOrNot()){
-            return getAdvPlayerName() + (Math.abs(server.getScore() - receiver.getScore()) <  Contants.SET_WIN_SCORE ? Contants.ADV: Contants.WIN_STR) ;
-        }
-        return scoreArr[server.getScore()]+" "+scoreArr[receiver.getScore()];
+        return overDeuceScoreOrNot() ? getAdvPlayerName() + (Math.abs(server.getScore() - receiver.getScore()) <  Contants.SET_WIN_SCORE ? Contants.ADV: Contants.WIN_STR) : scoreArr[server.getScore()]+" "+scoreArr[receiver.getScore()];
     }
 
     private boolean overDeuceScoreOrNot() {

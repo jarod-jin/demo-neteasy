@@ -1,29 +1,54 @@
 package cn.jarod.csd.demo.tennis;
 
+import cn.jarod.csd.demo.Contants;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class TennisMatch {
 
+
     List<String> winPlayer;
 
-    public TennisMatch(){
+    private TennisPlayer server;
+
+    private TennisPlayer receiver;
+
+
+    public void setWinPlayer(List<String> winPlayer) {
+        this.winPlayer = winPlayer;
+    }
+
+
+    public TennisMatch(String serverName, String receiverName){
+        if (server==null)
+           server =  new TennisPlayer(serverName);
+        if (receiver==null)
+            receiver =  new TennisPlayer(receiverName);
         if (winPlayer==null){
-            winPlayer = new ArrayList<String>();
+            setWinPlayer(new ArrayList<String>());
         }
     }
 
     public String printMatch() {
-        if  (winPlayer.size()>0)
-        {
-            return "Joseph (1:0) 91";
+        for (String name : winPlayer){
+            takeSetResult(name);
         }
-        return "Joseph (0:0) 91";
+        return server.getMatchNameString(receiver.getScore()) +
+                " ("+ server.getScore()+":"+ receiver.getScore() + ") " +
+                receiver.getMatchNameString(receiver.getScore()) ;
+    }
+
+
+    private void takeSetResult(String name) {
+        if (server.isThisPlayer(name))
+            server.playerGetPoint();
+        if (receiver.isThisPlayer(name))
+            receiver.playerGetPoint();
     }
 
     public void addOneSet(String player){
-        winPlayer.add(player);
+        winPlayer.add(player.substring(0,player.indexOf(Contants.WIN_STR)));
     }
 }

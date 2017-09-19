@@ -1,14 +1,8 @@
 package cn.jarod.csd.demo.tennis;
 
+import cn.jarod.csd.demo.Contants;
+
 public class TennisSet {
-
-    public static final int WIN_SCORE = 2;
-
-    public static final int DEUCE_SCORE = 3;
-
-    public static final String WIN = " Win";
-
-    public static final String ADV = " Adv";
 
     private TennisPlayer receiver;
 
@@ -37,10 +31,10 @@ public class TennisSet {
 
     public String printScore() {
         if (server.getScore() == receiver.getScore() ) {
-            return (server.getScore() < DEUCE_SCORE) ? scoreArr[server.getScore()] + " All":"Deuce";
+            return (server.getScore() < Contants.DEUCE_SCORE) ? scoreArr[server.getScore()] + Contants.ALL : Contants.DEUCE;
         }
         if ( overDeuceScoreOrNot(server, receiver)  ){
-            return advPlayer.getName() + ((advPlayer.getScore() - unAdvPlayer.getScore()) <  WIN_SCORE ? ADV: WIN) ;
+            return advPlayer.getName() + ((advPlayer.getScore() - unAdvPlayer.getScore()) <  Contants.SET_WIN_SCORE ? Contants.ADV: Contants.WIN_STR) ;
         }
         return scoreArr[server.getScore()]+" "+scoreArr[receiver.getScore()];
     }
@@ -53,7 +47,7 @@ public class TennisSet {
             advPlayer = receiver;
             unAdvPlayer = server;
         }
-        if (advPlayer.getScore() >  DEUCE_SCORE ){
+        if (advPlayer.getScore() >  Contants.DEUCE_SCORE ){
             return true;
         }
         return false;

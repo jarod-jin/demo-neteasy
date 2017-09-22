@@ -8,8 +8,6 @@ public class TennisSet {
 
     private TennisPlayer server;
 
-    private String advPlayerName;
-
     public TennisPlayer getReceiver() {
         return receiver;
     }
@@ -19,7 +17,7 @@ public class TennisSet {
     }
 
 
-    private String[] scoreArr = {"Love","Fifteen","Thirty","Forty","Win"};
+    private String[] scoreArr = {"Love","Fifteen","Thirty","Forty"};
 
     private TennisSet(String serverName, String receiverName){
         server = new TennisPlayer(serverName);
@@ -28,9 +26,8 @@ public class TennisSet {
 
 
     public String printScore() {
-        if (server.getScore() == receiver.getScore() ) {
+        if (server.getScore() == receiver.getScore() )
             return (server.getScore() < Contants.DEUCE_SCORE) ? scoreArr[server.getScore()] + Contants.ALL : Contants.DEUCE;
-        }
         return overDeuceScoreOrNot() ? getAdvPlayerName() + (Math.abs(server.getScore() - receiver.getScore()) <  Contants.SET_WIN_SCORE ? Contants.ADV: Contants.WIN_STR) : scoreArr[server.getScore()]+" "+scoreArr[receiver.getScore()];
     }
 
